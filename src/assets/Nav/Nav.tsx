@@ -6,8 +6,8 @@ export default function Nav() {
 
 
     return (
-        <div className="flex sticky top-0 w-full p-8">
-            <div className="flex justify-between w-full items-center">
+        <div className="flex sticky top-0 w-full p-6 z-50 bg-primary">
+            <div className="flex justify-between w-full items-center ">
                 <div className="">
                     <Link href={"/"} className="group">
                         <div className="flex gap-x-2 ">

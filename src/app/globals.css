@@ -9,17 +9,24 @@
 .swiper-pagination-horizontal.swiper-pagination-bullets
   .swiper-pagination-bullet {
   background-color: #f13024 ;
+  
 }
 .swiper-pagination-bullet:not(.swiper-pagination-bullet-active) {
   opacity: 0.4;
   background-color: #000000; 
 }
 .swiper-button-next:after,
-.swiper-button-prev:after,
+
 .swiper-button-next:after,
 .swiper-rtl .swiper-button-prev:after {
+  margin-left: 20px;
   color: #f13024;
 }
+.swiper-button-prev:after {
+  margin-right: 20px;
+  color: #f13024;
+}
+
 /*input:-webkit-autofill {
   border-bottom: 4px solid white;
   -webkit-text-fill-color: white;

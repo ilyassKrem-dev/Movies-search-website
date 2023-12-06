@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-
+import Recom from "@/assets/Home/Recom/Recom";
 const options = {
     method: 'GET',
     headers: {
@@ -9,16 +9,12 @@ const options = {
   };
 
 export default function Homemain() {
-    /*const [moviesData , setMoviesData] = useState()
-    useEffect(() => {
-        fetch('https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1' , options)
-            .then(res => res.json())
-                .then(data => setMoviesData(data.results))
-    } , [])
-    console.log(moviesData)*/
     return (
-        <div className="text-white">
-            Hello
+        <div className="text-white flex flex-col h-full pt-[1.5rem]">
+            <Recom options={options}/>
+            <div>
+                Hello
+            </div>
         </div>
     )
 }
