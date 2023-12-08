@@ -6,12 +6,12 @@ export default function Nav() {
 
 
     return (
-        <div className="flex sticky top-0 w-full p-6 z-50 bg-primary">
+        <div className="flex fixed top-0 w-full p-6 z-50">
             <div className="flex justify-between w-full items-center ">
                 <div className="">
                     <Link href={"/"} className="group">
                         <div className="flex gap-x-2 ">
-                            <h1 className="h1 font-bold text-5xl cursor-pointer group-hover:text-accent transition-all duration-100">Movies</h1>
+                            <h1 className="h1 font-bold text-5xl cursor-pointer group-hover:text-accent transition-all duration-100 max-[300px]:text-2xl">Movies</h1>
                             <div className="flex gap-x-1 group-hover:animate-pulse transition-all duration-200">
                                 <div className=" bg-accent w-2 h-full "></div>
                                 <div className=" bg-accent/60 w-2 h-full "></div>
@@ -21,7 +21,7 @@ export default function Nav() {
                     </Link>
                 </div>
                 <div className=" cursor-pointer  relative group">
-                    <LuSearch className="text-5xl hover:text-accent transition-all duration-300"/>
+                    <LuSearch className="text-5xl hover:text-accent transition-all duration-300 max-[300px]:text-2xl"/>
                     <div className="absolute -bottom-[2.5rem] -right-1 bg-white rounded-lg py-1 px-2 hidden group-hover:flex opacity-90 transition-all duration-200">
                         <div className="relative ">
                             <p className="text-black text-sm ">Search</p>

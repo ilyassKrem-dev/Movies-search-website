@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react"
-import Recom from "@/assets/Home/Recom/Recom";
-const options = {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MzE3Yjk3OGJjYTE3ZjZkNzEwZTZjZjA4ODFjMTdhMSIsInN1YiI6IjY1NmY1ZDlhODg2MzQ4MDEyYzhhOGU3ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.hSqBVMYLoYvNpkg4Ou5K5d4PtBGhBk6acR9TVmZwIto'
-    }
-  };
+import Recom from "@/assets/Home/RecomGroup/Recom/Recom";
+import Genres from "@/assets/Home/Genres/Genres";
+import { optionsC } from "@/assets/Options/Options";
+import Top from "@/assets/Home/RecomGroup/Top";
 
 export default function Homemain() {
+    const [itemC , setItemC] = useState<any>()
+    const [removeIt , setremoveIt] = useState(false)
+    
     return (
-        <div className="text-white flex flex-col h-full pt-[1.5rem]">
-            <Recom options={options}/>
-            <div>
-                Hello
+        <div className="text-white flex flex-col h-full  gap-y-6 pt-[5.5rem] sm:pt-0">
+            {itemC&&<Top options={optionsC} itemC={itemC}/> /*not compelte*/ }
+            <Recom options={optionsC} change={setItemC} removeIt={removeIt} setremoveIt={setremoveIt}/>
+            <div className=" p-6">
+                <Genres change={setItemC} removeIt={removeIt} setremoveIt={setremoveIt}/>
             </div>
         </div>
     )

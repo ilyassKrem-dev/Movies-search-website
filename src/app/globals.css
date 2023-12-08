@@ -37,7 +37,7 @@
 
 @layer base {
   body {
-    @apply bg-primary text-white  leading-relaxed ;
+    @apply bg-black text-white  leading-relaxed overflow-x-hidden;
   }
   .page {
     @apply w-full h-screen overflow-hidden;
@@ -67,4 +67,32 @@
   }
  
   
+}
+
+@keyframes moveUpDown {
+  0%{
+      transform: translateY(0);
+  }
+  50% {
+      transform: translateY(-10px); /* Move up */
+  }
+  100% {
+    transform: translateY(0px); /* Move up */
+}
+}
+
+/* Add unique positions for each dot if needed */
+.dot-hover:hover .dot {
+  animation: moveUpDown 0.4s ease-in-out; /* Infinite loop for animation */
+}
+
+/* Adjust delay for each dot */
+.dot-hover:hover .dot1 {
+  animation-delay: 0s;
+}
+.dot-hover:hover .dot2 {
+  animation-delay: 0.3s; /* Delay for second dot */
+}
+.dot-hover:hover .dot3 {
+  animation-delay: 0.5s; /* Delay for third dot */
 }
