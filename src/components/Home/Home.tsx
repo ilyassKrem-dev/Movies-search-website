@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Recom from "@/assets/Home/RecomGroup/Recom/Recom";
 import Genres from "@/assets/Home/Genres/Genres";
 import { optionsC } from "@/assets/Options/Options";

@@ -5,6 +5,7 @@ import "swiper/css/navigation";
 import "swiper/css/effect-cards";
 import Image from "next/image";
 import Link from "next/link";
+import { pushToSelected } from "@/assets/ExportAssets/ExAsset";
 import { useEffect, useState } from "react";
 import { optionsC } from "@/assets/Options/Options";
 export default function Genres(props: any) {
@@ -54,7 +55,7 @@ export default function Genres(props: any) {
                 key={index}
                 className="w-full flex flex-col gap-y-5 items-center justify-center"
               >
-                <div className="flex flex-col items-center justify-center gap-y-3  lg:justify-between w-full">
+                <div className="flex flex-col   items-center justify-center gap-y-3  lg:justify-between w-full">
                   <h1 className="h1 text-2xl mb-10 sm:text-xl uppercase">{item.name}</h1>
                   {/*<Link
                     href={"/"}
@@ -91,13 +92,13 @@ export default function Genres(props: any) {
                   modules={[Navigation, EffectCards]}
                   className="max-[500px]:w-[300px] w-full lg:w-full relative max-[300px]:w-[200px]"
                 >
-                  {moviesByG[item.id]?.map((item: any, index: any) => {
-                    const PosterURL = `https://image.tmdb.org/t/p/original${item.poster_path}`;
+                  {moviesByG[item.id]?.map((movie: any, index: any) => {
+                    const PosterURL = `https://image.tmdb.org/t/p/original${movie.poster_path}`;
                     return (
                       <SwiperSlide
                         key={index}
                         className={`flex justify-center items-center cursor-pointer relative ${
-                          movieId === item.id && "border-4"
+                          movieId === movie.id && "border-4"
                         }`}
                       >
                         <Image
@@ -108,13 +109,15 @@ export default function Genres(props: any) {
                           alt=""
                           className="w-[400px] h-[400px] lg:h-[350px] "
                           onClick={() => {
-                            props.change(item);
-                            setMovieid(item.id);
+                            props.change(movie);
+                            setMovieid(movie.id);
                             props.setremoveIt(true)
                           }}
                         />
-                        {movieId === item.id &&<div className="absolute bottom-0 left-0 right-0 bg-white text-black flex items-center justify-center py-2">
-                            <button className=" capitalize text-xl font-semibold flex items-center gap-x-2 dot-hover hover:opacity-70 transition-all duration-200">
+                        {movieId === movie.id &&<div className="absolute bottom-0 left-0 right-0 bg-white text-black flex items-center justify-center py-2">
+                            <Link href={"/movie"}
+                            onClick={() => pushToSelected(movie)}
+                            className=" capitalize text-xl font-semibold flex items-center gap-x-2 dot-hover hover:opacity-70 transition-all duration-200">
                                 <div className="flex text-3xl items-center -translate-y-2 ">
                                     <div className="dot dot1 ">
                                         .
@@ -126,7 +129,7 @@ export default function Genres(props: any) {
                                         .
                                     </div>
                                 </div>
-                                more about</button>
+                                more about</Link>
                         </div>}
                       </SwiperSlide>
                     );

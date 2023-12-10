@@ -8,7 +8,7 @@ export default function Details({itemC}:any) {
     return (
         <>
             <div className="w-full relative hidden sm:flex">
-                <Image src={PosterURL} width={1200} height={1200} alt="" className="w-full h-[600px] objet-cover sm:h-[800px]"/>
+                <Image src={PosterURL} width={1200} height={1200} alt="" className="w-full h-[600px] objet-cover sm:h-[600px] lg:h-[800px]"/>
                 <div className="bg-gradient-to-r from-black via-black/70 to-transparent left-0 top-0 absolute  h-full w-full flex flex-col items-center justify-center gap-y-5 lg:left-0 lg:top-0 xl:w-[40%]">
                     <div className="flex flex-col gap-y-4">
                         <h2 className="text-4xl font-semibold text-center   ">{itemC.title}</h2>
