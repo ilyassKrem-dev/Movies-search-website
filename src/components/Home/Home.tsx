@@ -9,7 +9,7 @@ export default function Homemain() {
     const [removeIt , setremoveIt] = useState(false)
     
     return (
-        <div className="text-white flex flex-col h-full  gap-y-6 pt-[5.5rem] sm:pt-0">
+        <div className="text-white flex flex-col h-full  gap-y-6 pt-[5.5rem] sm:pt-0 bg-primary/20">
             {itemC&&<Top options={optionsC} itemC={itemC}/> /*not compelte*/ }
             <Recom options={optionsC} change={setItemC} removeIt={removeIt} setremoveIt={setremoveIt}/>
             <div className=" p-6">

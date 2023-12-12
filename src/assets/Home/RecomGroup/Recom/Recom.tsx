@@ -1,6 +1,6 @@
 import { useEffect,  useState } from "react";
 import Image from "next/image";
-
+import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
   Navigation,
@@ -9,6 +9,7 @@ import {
 import "swiper/css";
 import "swiper/css/navigation";
 import 'swiper/css/effect-cards';
+import { pushToSelected } from "@/assets/ExportAssets/ExAsset";
 export default function Recom(props: any) {
   const [moviesData, setMoviesData] = useState<any>([]);
   const [moviesImages, setMoviesImages] = useState<any>(null);
@@ -80,9 +81,10 @@ export default function Recom(props: any) {
   return (
     <>
       {moviesImages &&moviesData.length >0 && (
-        <div className="flex h-full w-full justify-center items-center  p-10 bg-cover bg-no-repeat flex-col">
+        <div className="flex h-full w-full justify-center items-center  p-6 flex-col">
           <h1 className="h1 text-2xl mb-10 sm:text-xl">FEATURED</h1>
           <Swiper
+                 
                   breakpoints={{
                     200: {
                       slidesPerView: 1,
@@ -108,14 +110,14 @@ export default function Recom(props: any) {
                   navigation={true}
                   grabCursor={true}
                   modules={[Navigation, EffectCards]}
-                  className="max-[500px]:w-[300px] w-full lg:w-full relative max-[300px]:w-[200px]"
+                  className="  w-full lg:w-full relative max-[300px]:w-[200px]"
                 >
                   {moviesData.slice(0, 5).map((item: any, index: any) => {
                     const PosterURL = `https://image.tmdb.org/t/p/original${item.poster_path}`;
                     return (
                       <SwiperSlide
                         key={index}
-                        className={`flex justify-center items-center cursor-pointer relative ${
+                        className={`flex justify-center items-center cursor-pointer relative w-full ${
                           movieId === item.id && "border-4"
                         }`}
                       >
@@ -129,7 +131,7 @@ export default function Recom(props: any) {
                               height={500}
                               priority={true}
                               
-                              className="w-[400px] h-[400px] lg:h-[350px] "
+                              className="w-full h-[400px] lg:h-[350px] max-[300px]:h-[300px]"
                               onClick={() => {
                                 props.change(item);
                                 setMovieid(item.id);
@@ -141,7 +143,9 @@ export default function Recom(props: any) {
                           </div>
                         
                         {movieId === item.id &&<div className="absolute bottom-0 left-0 right-0 bg-white text-black flex items-center justify-center py-2">
-                            <button className=" capitalize text-xl font-semibold flex items-center gap-x-2 dot-hover hover:opacity-70 transition-all duration-200">
+                            <Link href={"/movie"} 
+                            onClick={() => pushToSelected(item)}
+                            className=" capitalize text-xl font-semibold flex items-center gap-x-2 dot-hover hover:opacity-70 transition-all duration-200">
                                 <div className="flex text-3xl items-center -translate-y-2 ">
                                     <div className="dot dot1 ">
                                         .
@@ -153,7 +157,7 @@ export default function Recom(props: any) {
                                         .
                                     </div>
                                 </div>
-                                more about</button>
+                                more about</Link>
                         </div>}
                       </SwiperSlide>
                     );

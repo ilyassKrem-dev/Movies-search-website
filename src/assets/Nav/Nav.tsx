@@ -1,12 +1,41 @@
-import Image from "next/image"
+"use client"
 import Link from "next/link"
+import { useEffect, useState } from "react";
 import { LuSearch } from "react-icons/lu";
 
 export default function Nav() {
+    const [scrollBg, setScrollBg] = useState(false);
+    const [prevScrollPos, setPrevScrollPos] = useState(0);
+    const [visible, setVisible] = useState(true);
 
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollPos = window.pageYOffset;
 
+            setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 100);
+            setPrevScrollPos(currentScrollPos);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [prevScrollPos]);
+    useEffect(() => {
+        const handleScroll = () => {
+            const isTop = window.scrollY > 100; 
+            if (isTop !== scrollBg) {
+                setScrollBg(isTop);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [scrollBg]);
     return (
-        <div className="flex fixed top-0 w-full p-6 z-50">
+        <div className={`flex fixed top-0 w-full p-6 z-50 ${scrollBg ? 'bg-black' : ''} transition-all duration-200 ${visible ? '' : '-translate-y-full'}`}>
             <div className="flex justify-between w-full items-center ">
                 <div className="">
                     <Link href={"/"} className="group">

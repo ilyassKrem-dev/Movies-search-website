@@ -12,7 +12,7 @@ export default function Genres(props: any) {
   const [genresType, setGenresTypes] = useState<any>([]);
   const [moviesByG, setMoviesByG] = useState<any>([]);
   const [movieId, setMovieid] = useState<any>();
-
+  
   useEffect(() => {
     fetch("https://api.themoviedb.org/3/genre/movie/list?language=en", optionsC)
       .then((res) => res.json())
@@ -21,48 +21,55 @@ export default function Genres(props: any) {
         setGenresTypes(newD);
       });
   }, []);
-  const fetchMoviesByGenre = (genreId: any) => {
-    fetch(
+  const fetchMoviesByGenre = async (genreId:any) => {
+    const response = await fetch(
       `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=${genreId}`,
       optionsC
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        const newD = data.results.slice(0, 6);
-        setMoviesByG((prev: any) => ({ ...prev, [genreId]: newD }));
-      });
+    );
+    const data = await response.json();
+    return data.results
   };
+  
   useEffect(() => {
-    if (genresType.length > 0) {
-      genresType.forEach((genre: any) => {
-        fetchMoviesByGenre(genre.id);
-      });
-    }
+    const fetchMoviesForGenres = async () => {
+      if (genresType.length > 0) {
+        const moviesByGenres:any = {};
+        const displayedMovies:any = {};
+        for (const genre of genresType) {
+          const movies = await fetchMoviesByGenre(genre.id);
+          const uniqueMovies = movies.filter((movie:any) => {
+            if (displayedMovies[movie.id]) {
+              return false;
+            } else {
+              displayedMovies[movie.id] = true;
+              return true;
+            }
+          });
+          moviesByGenres[genre.id] = uniqueMovies;
+        }
+        setMoviesByG(moviesByGenres);
+      }
+    };
+  
+    fetchMoviesForGenres();
   }, [genresType]);
   useEffect(() => {
       if (!props.removeIt) {
         setMovieid(null)
       }
   } , [props.removeIt])
-  console.log(moviesByG);
   return (
     <>
       {genresType.length > 0 && (
-        <div className="flex flex-col items-center justify-center w-full h-full gap-y-5">
+        <div className="flex flex-col items-center justify-center w-full h-full gap-y-8">
           {genresType.map((item: any, index: any) => {
             return (
               <div
                 key={index}
-                className="w-full flex flex-col gap-y-5 items-center justify-center"
+                className="w-full flex flex-col gap-y-6 items-center justify-center lg:gap-y-2 "
               >
-                <div className="flex flex-col   items-center justify-center gap-y-3  lg:justify-between w-full">
-                  <h1 className="h1 text-2xl mb-10 sm:text-xl uppercase">{item.name}</h1>
-                  {/*<Link
-                    href={"/"}
-                    className="underline text-accent/50 capitalize hover:text-accent transition-all duration-300 sm:hover:text-xl"
-                  >
-                    show more
-            </Link>*/}
+                <div className="flex flex-col  items-center lg:items-start  gap-y-2  w-full ">
+                  <h1 className="h1 text-2xl  sm:text-xl capitalize ">{item.name}</h1>
                 </div>
                 <Swiper
                   breakpoints={{
@@ -90,10 +97,11 @@ export default function Genres(props: any) {
                   navigation={true}
                   grabCursor={true}
                   modules={[Navigation, EffectCards]}
-                  className="max-[500px]:w-[300px] w-full lg:w-full relative max-[300px]:w-[200px]"
+                  className=" w-full lg:w-full relative max-[300px]:w-[200px]"
                 >
-                  {moviesByG[item.id]?.map((movie: any, index: any) => {
+                  {moviesByG[item.id]?.slice(0,6).map((movie: any, index: any) => {
                     const PosterURL = `https://image.tmdb.org/t/p/original${movie.poster_path}`;
+                   
                     return (
                       <SwiperSlide
                         key={index}
@@ -107,7 +115,7 @@ export default function Genres(props: any) {
                           height={500}
                           priority={true}
                           alt=""
-                          className="w-[400px] h-[400px] lg:h-[350px] "
+                          className="w-full h-[400px] lg:h-[350px] max-[300px]:h-[300px]"
                           onClick={() => {
                             props.change(movie);
                             setMovieid(movie.id);

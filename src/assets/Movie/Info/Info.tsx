@@ -43,14 +43,16 @@ export default function Info(props:any) {
           document.body.removeEventListener("click", handleOutsideClick);
         };
     }, []);
-    console.log(trailer)
+    
     useEffect(() => {
         fetch(`https://api.themoviedb.org/3/movie/${props.info.id}/videos?language=en-US`, props.options)
             .then(res => res.json())
                 .then(data => {
-                        const regex = /official\s*trailer(?:\s+\w*)?/i;
+                        
+                        const regex = /official\s*trailer|(?!official\s*trailer)trailer/i;
                         const newD = data.results.find((item:any) => regex.test(item.name))
                         if (newD) {
+                            
                             setTrailer(newD)
                         }
                         })
