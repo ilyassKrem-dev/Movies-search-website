@@ -12,7 +12,7 @@ export default function Movie() {
     const [genres , setGenres] = useState<any>([])
     const [clickedImage , setClickedImage] = useState<any>(null)
     const [imageChange , setImageChange] = useState<any>()
-
+    console.log(Selected)
     const router = useRouter()
     useEffect(() => {
         if (!Selected) {
@@ -21,13 +21,21 @@ export default function Movie() {
     }, [Selected, router]);
     
     useEffect(() => {
-        if (Selected) {
+        if (Selected && Selected.backdrop_path !== null) {
             fetch(`https://api.themoviedb.org/3/movie/${Selected.id}/images`, optionsC)
                 .then(res => res.json())
                     .then(data => setImagesBa(data.backdrops))
+        } else if (Selected && Selected.backdrop_path === null) {
+            fetch(`https://api.themoviedb.org/3/movie/${Selected.id}/images`, optionsC)
+                .then(res => res.json())
+                    .then(data => {
+                        console.log(data)
+                        setImagesBa(data.posters)})
+            
         }
             
     } , [Selected])
+
     useEffect(() => {
         if (Selected) {
             fetch('https://api.themoviedb.org/3/genre/movie/list?language=en', optionsC)
@@ -43,6 +51,9 @@ export default function Movie() {
     let backDropUrl = ``
     if (Selected) {
         backDropUrl = `https://image.tmdb.org/t/p/original${imageChange || Selected.backdrop_path}`
+        if (Selected.backdrop_path === null) {
+            backDropUrl = `https://image.tmdb.org/t/p/original${imageChange || Selected.poster_path}`
+        }
     }
     const formatDate = (dateSelected:any) => {
         const date = new Date(dateSelected);
@@ -66,8 +77,8 @@ export default function Movie() {
     return (
         <>
             {Selected&&imagesBa.length > 0&&
-            <div className=" w-full  h-screen  sm:pb-10 bg-primary/20">
-                <div className="relative flex flex-col h-full">
+            <div className=" w-full  h-screen  sm:pb-10 ">
+                <div className="relative flex flex-col h-[80%]">
                     <Image priority={true} src={backDropUrl} width={1200} height={1200} alt="" className="w-full  object-cover h-full"/>
                     <div className="absolute bottom-0 right-0 left-0 bg-gradient-to-t from-black/90 via-black to-transparent h-[400px] flex items-center justify-center flex-col gap-y-8 sm:pb-0 lg:top-0 lg:right-auto lg:h-full lg:w-[50%] lg:bg-gradient-to-r max-[300px]:h-[420px]">
                         <div className=" text-3xl font-semibold max-[300px]:text-2xl w-[90%] text-center">
@@ -94,9 +105,13 @@ export default function Movie() {
                         <Info info={Selected} options={optionsC}/>
                     </div>
                 </div>
-                <div className="bg-primary/20">
-                    <div className="bg-white/80 w-[30%] mx-auto h-[0.05rem] my-8 hidden sm:flex"></div>
-                    <div className={`hidden sm:flex ${clickedImage === null && 'p-5 gap-x-4'}  flex gap-x-1 items-center justify-center px-5`}>
+                <div className="bg-primary/20 relative">
+                    {Selected.backdrop_path !== null &&<div className=" py-8 hidden sm:flex">
+                        <div className="bg-white/80 w-[30%] mx-auto h-[0.05rem]">
+
+                        </div>
+                    </div>}
+                    {Selected.backdrop_path !== null &&<div className={`hidden sm:flex ${clickedImage === null && 'p-5 gap-x-4'}  flex gap-x-1 items-center justify-center px-5 `}>
                         {imagesBa.slice(0,3).map((item:any,index:any) => {
                         const backdroupImage = `https://image.tmdb.org/t/p/original${item.file_path}`
                             return (
@@ -112,7 +127,7 @@ export default function Movie() {
                                 </div>
                             )
                         })}
-                    </div>
+                    </div>}
                     <Actors info={Selected}/>
                 </div>
                 

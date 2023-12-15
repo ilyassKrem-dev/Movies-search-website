@@ -5,7 +5,10 @@ import { pushToSelected } from "@/assets/ExportAssets/ExAsset";
 
 export default function Details({itemC}:any) {
 
-    const PosterURL = `https://image.tmdb.org/t/p/original${itemC.backdrop_path}`;
+    let PosterURL = `https://image.tmdb.org/t/p/original${itemC.backdrop_path}`
+    if (itemC.backdrop_path === null) {
+         PosterURL = `https://image.tmdb.org/t/p/original${itemC.poster_path}`;
+    }
     return (
         <>
             <div className="w-full relative hidden sm:flex">

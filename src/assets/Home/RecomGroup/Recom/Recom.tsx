@@ -64,14 +64,14 @@ export default function Recom(props: any) {
   
   useEffect(() => {
       let timeId:any
-      if (!startAuto) {
+      if (!startAuto && !props.stop) {
         timeId = setTimeout(() => {
           setStartAuto(true)
         }, 10000);
 
       }
       return () => clearTimeout(timeId)
-  } , [startAuto])
+  } , [startAuto , props.stop])
   useEffect(()=>{
       if(props.removeIt) {
         setMovieid(null)
@@ -138,6 +138,7 @@ export default function Recom(props: any) {
                                 setStartAuto(false);
                                 setIndexN(index);
                                 props.setremoveIt(false);
+                                props.setStop(false)
                               }}
                             />
                           </div>

@@ -1,8 +1,8 @@
 "use client"
 import Link from "next/link"
 import { useEffect, useState } from "react";
-import { LuSearch } from "react-icons/lu";
 
+import Search from "./SearchF/Search";
 export default function Nav() {
     const [scrollBg, setScrollBg] = useState(false);
     const [prevScrollPos, setPrevScrollPos] = useState(0);
@@ -49,15 +49,7 @@ export default function Nav() {
                         </div>
                     </Link>
                 </div>
-                <div className=" cursor-pointer  relative group">
-                    <LuSearch className="text-5xl hover:text-accent transition-all duration-300 max-[300px]:text-2xl"/>
-                    <div className="absolute -bottom-[2.5rem] -right-1 bg-white rounded-lg py-1 px-2 hidden group-hover:flex opacity-90 transition-all duration-200">
-                        <div className="relative ">
-                            <p className="text-black text-sm ">Search</p>
-                            <div className=" absolute border-solid border-l-transparent border-l-8 border-y-[8px] border-r-8 border-t-transparent border-b-white border-r-transparent -top-5 right-3"></div>
-                        </div>
-                    </div>
-                </div>
+                <Search />
             </div>
         </div>
     )

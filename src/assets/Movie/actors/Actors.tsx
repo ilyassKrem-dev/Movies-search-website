@@ -10,6 +10,7 @@ export default function Actors({ info }: any) {
   const [actors, setActors] = useState<any>();
   const [actorsImages, setActorsImages] = useState<any>();
   const [show, setShow] = useState<boolean>(false);
+
   useEffect(() => {
     fetch(
       `https://api.themoviedb.org/3/movie/${info.id}/credits?language=en-US`,
@@ -84,15 +85,18 @@ export default function Actors({ info }: any) {
                     </div>
                     <div className="overflow-y-scroll [&::-webkit-scrollbar]:hidden flex flex-wrap items-center justify-center gap-4 gap-x-10 max-[300px]:gap-x-4">
                       {actors.map((actor: any, index: number) => {
-                        if (actorsImages[index]) {
+                       
                           return (
                             <div
                               key={index}
                               className=" items-center flex-col gap-y-2 justify-center flex"
-                              
                             >
                               <Image
-                                src={`https://image.tmdb.org/t/p/original${actorsImages[index]}`}
+                                src={
+                                  actorsImages[index]
+                                    ? `https://image.tmdb.org/t/p/original${actorsImages[index]}`
+                                    : '/default-image.png'
+                                }
                                 width={100}
                                 height={100}
                                 priority={true}
@@ -104,8 +108,6 @@ export default function Actors({ info }: any) {
                               </p>
                             </div>
                           );
-                        }
-                        return null;
                       })}
                     </div>
                     <div
@@ -132,6 +134,7 @@ export default function Actors({ info }: any) {
               },
               700: {
                 slidesPerView: 5,
+                
               },
             }}
             grabCursor={true}
@@ -140,7 +143,6 @@ export default function Actors({ info }: any) {
             className="w-full sm:w-[700px]"
           >
             {actors.slice(0, 5).map((actor: any, index: number) => {
-              if (actorsImages[index]) {
                 return (
                   <SwiperSlide
                     key={index}
@@ -148,7 +150,11 @@ export default function Actors({ info }: any) {
                     style={{ display: "flex" }}
                   >
                     <Image
-                      src={`https://image.tmdb.org/t/p/original${actorsImages[index]}`}
+                      src={
+                        actorsImages[index]
+                          ? `https://image.tmdb.org/t/p/original${actorsImages[index]}`
+                          : '/default-image.png'
+                      }
                       width={100}
                       height={100}
                       priority={true}
@@ -160,8 +166,6 @@ export default function Actors({ info }: any) {
                     </p>
                   </SwiperSlide>
                 );
-              }
-              return null;
             })}
           </Swiper>
         </div>

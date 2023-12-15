@@ -119,7 +119,9 @@ export default function Genres(props: any) {
                           onClick={() => {
                             props.change(movie);
                             setMovieid(movie.id);
-                            props.setremoveIt(true)
+                            props.setremoveIt(true);
+                            props.setStop(true);
+                            
                           }}
                         />
                         {movieId === movie.id &&<div className="absolute bottom-0 left-0 right-0 bg-white text-black flex items-center justify-center py-2">
