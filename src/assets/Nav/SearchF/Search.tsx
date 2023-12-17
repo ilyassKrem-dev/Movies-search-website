@@ -92,7 +92,7 @@ export default function Search() {
       <div className="group">
         <LuSearch 
         onClick={() => setShow(prev => !prev)}
-        className="text-5xl hover:text-accent transition-all duration-300 max-[300px]:text-2xl cursor-pointer" />
+        className="text-3xl hover:text-accent transition-all duration-300 max-[300px]:text-2xl cursor-pointer" />
         <div className="absolute -bottom-[2.5rem] -right-1 bg-white rounded-lg py-1 px-2 hidden group-hover:sm:flex opacity-90 transition-all duration-200">
           <div className="relative ">
             <p className="text-black text-sm ">Search</p>

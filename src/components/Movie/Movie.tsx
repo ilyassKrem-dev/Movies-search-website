@@ -12,7 +12,7 @@ export default function Movie() {
     const [genres , setGenres] = useState<any>([])
     const [clickedImage , setClickedImage] = useState<any>(null)
     const [imageChange , setImageChange] = useState<any>()
-    console.log(Selected)
+    
     const router = useRouter()
     useEffect(() => {
         if (!Selected) {

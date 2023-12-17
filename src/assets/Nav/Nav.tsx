@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link"
 import { useEffect, useState } from "react";
-
+import Menu from "./Others/Menu";
 import Search from "./SearchF/Search";
 export default function Nav() {
     const [scrollBg, setScrollBg] = useState(false);
@@ -49,7 +49,10 @@ export default function Nav() {
                         </div>
                     </Link>
                 </div>
-                <Search />
+                <div className="flex gap-x-4 items-center">
+                    <Search />
+                    <Menu />
+                </div>
             </div>
         </div>
     )
