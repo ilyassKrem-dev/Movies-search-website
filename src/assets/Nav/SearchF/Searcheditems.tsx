@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { pushToSelected } from "../../ExportAssets/ExAsset";
 
 export default function Searcheditems({filteredMovies , setShow}:any) {
@@ -41,8 +41,10 @@ export default function Searcheditems({filteredMovies , setShow}:any) {
           <div className="text-black overflow-y-scroll h-[200px] lg:h-[300px] flex flex-col gap-y-4 [&::-webkit-scrollbar]:hidden w-full p-3"
           style={{ height: `${containerHeight}px` }}>
             {filteredMovies.map((movie: any, index: any) => {
-              const PosterURL = `https://image.tmdb.org/t/p/original${movie.poster_path}`;
-
+              const PosterURL = useMemo(
+                () => `https://image.tmdb.org/t/p/original${movie.poster_path}`,
+                [movie.poster_path]
+              );
               return (
                 <div key={index} className="flex flex-col w-full gap-y-3">
                   <Link
@@ -63,7 +65,7 @@ export default function Searcheditems({filteredMovies , setShow}:any) {
                         {movie.title}
                       </h3>
                       <p className="max-[450px]:text-[0.75rem] max-[300px]:text-[0.6rem] text-sm max-[250px]:text-[0.4rem]">{formatDate(movie.release_date)}</p>
-                      <p className="max-[450px]:text-[0.75rem] max-[300px]:text-[0.6rem] text-sm max-[250px]:text-[0.4rem] text-accent underline">More about..</p>
+                      <p className="max-[450px]:text-[0.75rem] max-[300px]:text-[0.6rem] text-sm max-[250px]:text-[0.4rem] text-accent underline cursor-pointer">More about..</p>
                     </div>
                     <div>
                       <Image
@@ -71,6 +73,7 @@ export default function Searcheditems({filteredMovies , setShow}:any) {
                         width={imageDimensions.width}
                         height={imageDimensions.width}
                         alt=""
+                        loading={"lazy"}
                         className="rounded-lg w-auto h-auto sm:w-[100px] sm:h-[120px]"
                       />
                     </div>

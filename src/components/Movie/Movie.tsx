@@ -6,6 +6,7 @@ import { optionsC } from "@/assets/Options/Options"
 import Info from "@/assets/Movie/Info/Info"
 import Actors from "@/assets/Movie/actors/Actors"
 
+import {motion} from 'framer-motion'
 export default function Movie() {
     
     const [imagesBa , setImagesBa] = useState<any>([])
@@ -81,10 +82,20 @@ export default function Movie() {
                 <div className="relative flex flex-col h-[80%]">
                     <Image priority={true} src={backDropUrl} width={1200} height={1200} alt="" className="w-full  object-cover h-full"/>
                     <div className="absolute bottom-0 right-0 left-0 bg-gradient-to-t from-black/90 via-black to-transparent h-[400px] flex items-center justify-center flex-col gap-y-8 sm:pb-0 lg:top-0 lg:right-auto lg:h-full lg:w-[50%] lg:bg-gradient-to-r max-[300px]:h-[420px]">
-                        <div className=" text-3xl font-semibold max-[300px]:text-2xl w-[90%] text-center">
+                        <motion.div
+                        initial={{opacity:0}}
+                        animate={{opacity:1}} 
+                        exit={{opacity:0}}
+                        transition={{ duration: 1 , ease:"easeInOut" }} 
+                        className=" text-3xl font-semibold max-[300px]:text-2xl w-[90%] text-center">
                             {Selected.title}
-                        </div>
-                        <div className="flex items-center gap-x-4 max-[270px]:gap-x-2 flex-wrap w-[80%] justify-center">
+                        </motion.div>
+                        <motion.div
+                        initial={{opacity:0}}
+                        animate={{opacity:1}} 
+                        exit={{opacity:0}}
+                        transition={{ duration: 2 , ease:"easeInOut" }}
+                        className="flex items-center gap-x-4 max-[270px]:gap-x-2 flex-wrap w-[80%] justify-center">
                             {genres.map((item:any , index:any) => {
                                 return (
                                     <div key={index} className="flex gap-x-4 items-center text-white/80 [270px]:gap-x-2 text-sm">
@@ -97,11 +108,16 @@ export default function Movie() {
                                     </div>
                                 )
                             })}
-                        </div>
-                        <div className="text-lg text-center">
+                        </motion.div>
+                        <motion.div 
+                        initial={{opacity:0}}
+                        animate={{opacity:1}} 
+                        exit={{opacity:0}}
+                        transition={{ duration:3 , ease:"easeInOut" }}
+                        className="text-lg text-center">
                             <p>{currentDate > Selected.release_date?`Released on`:`Coming on`}</p>
                             <p className=" font-normal">{releaseDate}</p>
-                        </div>
+                        </motion.div>
                         <Info info={Selected} options={optionsC}/>
                     </div>
                 </div>

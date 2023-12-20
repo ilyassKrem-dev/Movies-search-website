@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { FaPlay } from "react-icons/fa6";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import Link from "next/link";
+
+import {motion} from 'framer-motion'
 export default function Info(props:any) {
     const [show , setShow] = useState(false)
     const [showTr , setShowTr] = useState(false)
@@ -63,10 +65,12 @@ export default function Info(props:any) {
         <div className="flex  gap-x-12 sm:gap-x-32 ">
             {trailer&&<Link href={`https://www.youtube.com/watch?v=${trailer.key}`} target={"_blank"}
             className={` bg-red-700/80 font-semibold rounded-xl py-3 px-10 text-xl  gap-x-2 items-center  group relative ${!showTr&&"cursor-pointer"} lg:hidden flex`}>
-                <div className="flex gap-x-2 items-center group-hover:opacity-70 transition-all duration-100">
+                <motion.div
+                
+                className="flex gap-x-2 items-center group-hover:opacity-70 transition-all duration-100">
                     <FaPlay  className=" rotate-180 group-hover:rotate-0 transition-all duration-300"/>
                     Trailer
-                </div>
+                </motion.div>
             </Link>}
             <div onClick={() => setShowTr(true)} 
             className={` bg-red-700/80 font-semibold rounded-xl py-3 px-10 text-xl  gap-x-2 items-center  group relative ${!showTr&&"cursor-pointer"} lg:flex hidden`}>
@@ -89,7 +93,9 @@ export default function Info(props:any) {
                 </div>}
             </div>
             <div onClick={() => setShow(true)} className="flex flex-col gap-y-1 items-center relative  ">
-                <div className="hover:opacity-70 transition-all duration-100 cursor-pointer">
+                <div
+                
+                className="hover:opacity-70 transition-all duration-100 cursor-pointer">
                     <div className="text-4xl">
                         <IoIosInformationCircleOutline />
                     </div>

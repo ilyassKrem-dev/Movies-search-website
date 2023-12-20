@@ -43,7 +43,7 @@ export default function All({pNumber}:any) {
   }, [pathname , pageN , changeGenres]);
 
   return (
-    <div className="py-36 w-full h-full flex flex-col">
+    <div className="pt-36 pb-4 w-full h-full flex flex-col">
       <Allnav setChangeGenres={setChangeGenres}/>
       {movies && (
         <div className="pt-6 flex flex-col gap-y-10">

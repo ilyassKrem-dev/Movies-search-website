@@ -1,5 +1,5 @@
 import Image from "next/image";
-import {  useState } from "react";
+import {  useMemo, useState } from "react";
 import Link from "next/link";
 import { pushToSelected } from "@/assets/ExportAssets/ExAsset";
 
@@ -8,13 +8,20 @@ export default function  AllMovies({pageN , movies}:any) {
     return (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 px-2">
             {movies.results.map((movie: any, index: any) => {
-              if (!movie.poster_path && !movie.backdrop_path) {
-                
+              const backDropUrl = useMemo(() => {
+                if (!movie.poster_path && !movie.backdrop_path) {
+                  return null;
+                }
+      
+                if (!movie.poster_path) {
+                  return `https://image.tmdb.org/t/p/original${movie.backdrop_path}`;
+                }
+      
+                return `https://image.tmdb.org/t/p/original${movie.poster_path}`;
+              }, [movie.poster_path, movie.backdrop_path]);
+      
+              if (!backDropUrl) {
                 return null;
-              }
-              let backDropUrl = `https://image.tmdb.org/t/p/original${movie.poster_path}`;
-              if (!movie.poster_path) {
-                backDropUrl = `https://image.tmdb.org/t/p/original${movie.backdrop_path}`;
               }
               
               

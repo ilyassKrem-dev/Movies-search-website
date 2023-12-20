@@ -3,7 +3,7 @@ import { LuSearch } from "react-icons/lu";
 import { optionsC } from "../../Options/Options";
 import { FiSearch } from "react-icons/fi";
 
-
+import { motion, AnimatePresence } from "framer-motion";
 import Searcheditems from "./Searcheditems";
 export default function Search() {
   const [movies , setMovies] = useState<any>()
@@ -22,7 +22,7 @@ export default function Search() {
   useEffect(() => {
     const fetchData = async () => {
       if (movies && userInput.length > 1) {
-        const totalPagesToFetch = Math.min(movies.total_pages, 30);
+        const totalPagesToFetch = Math.min(movies.total_pages, 50);
   
         const fetchPromises = Array.from({ length: totalPagesToFetch }, (_, index) => {
           const pageNumber = index + 1;
@@ -100,15 +100,34 @@ export default function Search() {
           </div>
         </div>
       </div>
-      {show&&<div className={`fixed  top-24  w-full right-0 left-0 flex flex-col items-center justify-center mt-4 ${visible ? '' : 'opacity-0'}`}>
-          <input type="text" autoComplete="off" className="inputSearch rounded-xl text-black p-1 px-3 w-[70%] sm:w-[50%] lg:w-[40%] border-2 border-black focus:outline-accent pr-10" name="userInput" value={userInput} onChange={handleChange} placeholder='Search'/>
-          <div className="relative  w-[70%] sm:w-[50%] lg:w-[40%]">
-            <div className="absolute text-black right-3 -top-[2rem]">
-              <FiSearch className="text-2xl font-semibold hover:opacity-70 transition-all duration-300 cursor-pointer"/>
+      <AnimatePresence>
+        {show&&<motion.div 
+        initial={{ scale: 0.5, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.5, opacity: 0 }}
+        transition={{ duration: 0.3 }} 
+        className={`fixed  top-24  w-full right-0 left-0 flex flex-col items-center justify-center mt-4 ${visible ? '' : 'opacity-0'}`}>
+            <input type="text" autoComplete="off" className="inputSearch rounded-xl text-black p-1 px-3 w-[70%] sm:w-[50%] lg:w-[40%] border-2 border-black focus:outline-accent pr-10" name="userInput" value={userInput} onChange={handleChange} placeholder='Search'/>
+            <div className="relative  w-[70%] sm:w-[50%] lg:w-[40%]">
+              <div className="absolute text-black right-3 -top-[2rem]">
+                <FiSearch className="text-2xl font-semibold hover:opacity-70 transition-all duration-300 cursor-pointer"/>
+              </div>
             </div>
-          </div>
-          {filteredMovies.length > 0&&<Searcheditems filteredMovies={filteredMovies} setShow={setShow}/>}
-      </div>}
+            <AnimatePresence>
+              {filteredMovies.length > 0&&
+              <motion.div
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.5, opacity: 0 }}
+              transition={{ duration: 0.3 }} 
+              className="w-full h-full flex flex-col items-center justify-center">
+                <Searcheditems filteredMovies={filteredMovies} setShow={setShow}/>
+              </motion.div>
+              }
+            </AnimatePresence>
+        </motion.div>}
+        </AnimatePresence>
     </div>
+
   );
 }
