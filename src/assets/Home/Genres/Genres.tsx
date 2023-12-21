@@ -5,7 +5,7 @@ import "swiper/css/navigation";
 import "swiper/css/effect-cards";
 import Image from "next/image";
 import Link from "next/link";
-import { pushToSelected } from "@/assets/ExportAssets/ExAsset";
+
 import { useEffect, useState } from "react";
 import { optionsC } from "@/assets/Options/Options";
 export default function Genres(props: any) {
@@ -125,8 +125,8 @@ export default function Genres(props: any) {
                           }}
                         />
                         {movieId === movie.id &&<div className="absolute bottom-0 left-0 right-0 bg-white text-black flex items-center justify-center py-2">
-                            <Link href={"/movie"}
-                            onClick={() => pushToSelected(movie)}
+                            <Link href={`/movie/${movie.id}`}
+                            
                             className=" capitalize text-xl font-semibold flex items-center gap-x-2 dot-hover hover:opacity-70 transition-all duration-200">
                                 <div className="flex text-3xl items-center -translate-y-2 ">
                                     <div className="dot dot1 ">

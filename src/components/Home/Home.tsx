@@ -10,7 +10,7 @@ export default function Homemain() {
     const [stop, setStop] = useState(false)
     return (
         <div className="text-white flex flex-col h-full  gap-y-6 pt-[5.5rem] sm:pt-0 bg-primary/20">
-            {itemC&&<Top options={optionsC} itemC={itemC}/> /*not compelte*/ }
+            {itemC&&<Top options={optionsC} itemC={itemC}/>}
             <Recom options={optionsC} change={setItemC} removeIt={removeIt} setremoveIt={setremoveIt} setStop={setStop} stop={stop}/>
             <div className=" p-6">
                 <Genres change={setItemC} removeIt={removeIt} setremoveIt={setremoveIt} setStop={setStop}/>

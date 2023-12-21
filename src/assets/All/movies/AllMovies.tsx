@@ -1,7 +1,6 @@
 import Image from "next/image";
 import {  useMemo, useState } from "react";
 import Link from "next/link";
-import { pushToSelected } from "@/assets/ExportAssets/ExAsset";
 
 export default function  AllMovies({pageN , movies}:any) {
     const [movieId, setMovieid] = useState<any>();
@@ -46,8 +45,8 @@ export default function  AllMovies({pageN , movies}:any) {
                   {movieId === movie.id && (
                     <div className="absolute bottom-0 left-0 right-0 bg-white text-black flex items-center justify-center py-2">
                       <Link
-                        href={"/movie"}
-                        onClick={() => pushToSelected(movie)}
+                        href={`/movie/${movie.id}`}
+                        
                         className=" capitalize text-xl font-semibold flex items-center gap-x-2 dot-hover hover:opacity-70 transition-all duration-200 max-[300px]:text-sm"
                       >
                         <div className="flex text-3xl   items-center -translate-y-2 max-[300px]:hidden">

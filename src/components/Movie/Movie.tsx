@@ -1,59 +1,88 @@
-import { Selected } from "@/assets/ExportAssets/ExAsset"
+
 import Image from "next/image"
-import { useRouter } from "next/navigation"
+import { useRouter , usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { optionsC } from "@/assets/Options/Options"
 import Info from "@/assets/Movie/Info/Info"
 import Actors from "@/assets/Movie/actors/Actors"
 
 import {motion} from 'framer-motion'
-export default function Movie() {
-    
+export default function Movie({idMovie}:any) {
+    const [movieFound , setMovieFound] = useState<any>()
     const [imagesBa , setImagesBa] = useState<any>([])
     const [genres , setGenres] = useState<any>([])
     const [clickedImage , setClickedImage] = useState<any>(null)
     const [imageChange , setImageChange] = useState<any>()
-    
+    const pathname = usePathname()
     const router = useRouter()
     useEffect(() => {
-        if (!Selected) {
-            router.push('/'); // Redirect to homepage
+        if (pathname === "/movie") {
+            router.push('/'); 
+            return
         }
-    }, [Selected, router]);
-    
+    }, [pathname, router]);
+
     useEffect(() => {
-        if (Selected && Selected.backdrop_path !== null) {
-            fetch(`https://api.themoviedb.org/3/movie/${Selected.id}/images`, optionsC)
+        if (!Number.isInteger(parseInt(idMovie))) {
+            router.push('/');
+            return;
+          }
+        if (pathname !== "/movie") {
+            if (pathname !== '/movie') {
+                fetch(`https://api.themoviedb.org/3/movie/${idMovie}?language=en-US`, optionsC)
+                  .then(res => {
+                    if (res.ok) {
+                      return res.json();
+                    }
+                    throw new Error('Movie not found');
+                  })
+                  .then(data => {
+                    setMovieFound(data);
+                  })
+                  .catch(error => {
+                    console.error('Error fetching movie data:', error);
+                    router.push('/'); 
+                  });
+              }
+        }
+        
+  
+    } , [idMovie ,pathname, router ,optionsC])
+
+    useEffect(() => {
+        if (movieFound && movieFound.backdrop_path !== null) {
+            fetch(`https://api.themoviedb.org/3/movie/${movieFound.id}/images`, optionsC)
                 .then(res => res.json())
                     .then(data => setImagesBa(data.backdrops))
-        } else if (Selected && Selected.backdrop_path === null) {
-            fetch(`https://api.themoviedb.org/3/movie/${Selected.id}/images`, optionsC)
+        } else if (movieFound && movieFound.backdrop_path === null) {
+            fetch(`https://api.themoviedb.org/3/movie/${movieFound.id}/images`, optionsC)
                 .then(res => res.json())
                     .then(data => {
-                        console.log(data)
+                        
                         setImagesBa(data.posters)})
             
         }
             
-    } , [Selected])
+    } , [movieFound])
 
     useEffect(() => {
-        if (Selected) {
+        if (movieFound) {
             fetch('https://api.themoviedb.org/3/genre/movie/list?language=en', optionsC)
                 .then(res => res.json())
                     .then(data => {
                         const newG = data.genres.filter((item:any) => {
-                            return Selected.genre_ids.includes(item.id)
+                            return movieFound.genres.some((movieGenre:any) => movieGenre.id === item.id);
                         })
+                        
                         setGenres(newG)})
         }
-    } , [Selected])
-
+    } , [movieFound])
+    
     let backDropUrl = ``
-    if (Selected) {
-        backDropUrl = `https://image.tmdb.org/t/p/original${imageChange || Selected.backdrop_path}`
-        if (Selected.backdrop_path === null) {
-            backDropUrl = `https://image.tmdb.org/t/p/original${imageChange || Selected.poster_path}`
+    if (movieFound) {
+        backDropUrl = `https://image.tmdb.org/t/p/original${imageChange || movieFound.backdrop_path}`
+        if (movieFound.backdrop_path === null) {
+            backDropUrl = `https://image.tmdb.org/t/p/original${imageChange || movieFound.poster_path}`
         }
     }
     const formatDate = (dateSelected:any) => {
@@ -74,10 +103,10 @@ export default function Movie() {
         return `${year}-${month}-${day}`;
     };
     const currentDate = getCurrentDate()
-    const releaseDate = Selected&&formatDate(Selected.release_date)
+    const releaseDate = movieFound&&formatDate(movieFound.release_date)
     return (
         <>
-            {Selected&&imagesBa.length > 0&&
+            {movieFound&&imagesBa.length > 0&&
             <div className=" w-full  h-screen  sm:pb-10 ">
                 <div className="relative flex flex-col h-[80%]">
                     <Image priority={true} src={backDropUrl} width={1200} height={1200} alt="" className="w-full  object-cover h-full"/>
@@ -88,7 +117,7 @@ export default function Movie() {
                         exit={{opacity:0}}
                         transition={{ duration: 1 , ease:"easeInOut" }} 
                         className=" text-3xl font-semibold max-[300px]:text-2xl w-[90%] text-center">
-                            {Selected.title}
+                            {movieFound.title}
                         </motion.div>
                         <motion.div
                         initial={{opacity:0}}
@@ -115,19 +144,19 @@ export default function Movie() {
                         exit={{opacity:0}}
                         transition={{ duration:3 , ease:"easeInOut" }}
                         className="text-lg text-center">
-                            <p>{currentDate > Selected.release_date?`Released on`:`Coming on`}</p>
+                            <p>{currentDate > movieFound.release_date?`Released on`:`Coming on`}</p>
                             <p className=" font-normal">{releaseDate}</p>
                         </motion.div>
-                        <Info info={Selected} options={optionsC}/>
+                        <Info info={movieFound} options={optionsC}/>
                     </div>
                 </div>
                 <div className="bg-primary/20 relative">
-                    {Selected.backdrop_path !== null &&<div className=" py-8 hidden sm:flex">
+                    {movieFound.backdrop_path !== null &&<div className=" py-8 hidden sm:flex">
                         <div className="bg-white/80 w-[30%] mx-auto h-[0.05rem]">
 
                         </div>
                     </div>}
-                    {Selected.backdrop_path !== null &&<div className={`hidden sm:flex ${clickedImage === null && 'p-5 gap-x-4'}  flex gap-x-1 items-center justify-center px-5 `}>
+                    {movieFound.backdrop_path !== null &&<div className={`hidden sm:flex ${clickedImage === null && 'p-5 gap-x-4'}  flex gap-x-1 items-center justify-center px-5 `}>
                         {imagesBa.slice(0,3).map((item:any,index:any) => {
                         const backdroupImage = `https://image.tmdb.org/t/p/original${item.file_path}`
                             return (
@@ -144,7 +173,7 @@ export default function Movie() {
                             )
                         })}
                     </div>}
-                    <Actors info={Selected}/>
+                    <Actors info={movieFound}/>
                 </div>
                 
             </div>}

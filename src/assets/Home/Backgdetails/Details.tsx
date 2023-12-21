@@ -1,7 +1,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { pushToSelected } from "@/assets/ExportAssets/ExAsset";
+
 
 export default function Details({itemC}:any) {
 
@@ -26,8 +26,8 @@ export default function Details({itemC}:any) {
                         </div>
                         <p className="w-[30rem] text-white/80 lg:w-[30rem]">{itemC.overview.length > 140 ? `${itemC.overview.slice(0, 140)}...` : itemC.overview}</p>
                     </div>
-                    <Link href={"/movie"}
-                    onClick={() => {pushToSelected(itemC)}} 
+                    <Link href={`/movie/${itemC.id}`}
+                     
                     className="bg-white text-black font-semibold text-xl rounded-xl py-2 px-8 flex items-center gap-x-2 capitalize hover:opacity-70 transition-all duration-200 group dot-hover">
                         <div className="flex text-3xl items-center -translate-y-2 ">
                             <div className="dot dot1 ">

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { pushToSelected } from "../../ExportAssets/ExAsset";
+
 
 export default function Searcheditems({filteredMovies , setShow}:any) {
     const [imageDimensions, setImageDimensions] = useState({ width: 20, height: 20 });
@@ -48,9 +48,8 @@ export default function Searcheditems({filteredMovies , setShow}:any) {
               return (
                 <div key={index} className="flex flex-col w-full gap-y-3">
                   <Link
-                    href={"/movie"}
+                    href={`/movie/${movie.id}`}
                     onClick={() => {
-                      pushToSelected(movie);
                       setShow(false);
                     }}
                     

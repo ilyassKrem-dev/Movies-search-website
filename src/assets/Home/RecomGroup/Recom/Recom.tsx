@@ -9,7 +9,7 @@ import {
 import "swiper/css";
 import "swiper/css/navigation";
 import 'swiper/css/effect-cards';
-import { pushToSelected } from "@/assets/ExportAssets/ExAsset";
+
 export default function Recom(props: any) {
   const [moviesData, setMoviesData] = useState<any>([]);
   const [moviesImages, setMoviesImages] = useState<any>(null);
@@ -144,8 +144,8 @@ export default function Recom(props: any) {
                           </div>
                         
                         {movieId === item.id &&<div className="absolute bottom-0 left-0 right-0 bg-white text-black flex items-center justify-center py-2">
-                            <Link href={"/movie"} 
-                            onClick={() => pushToSelected(item)}
+                            <Link href={`/movie/${item.id}`} 
+                            
                             className=" capitalize text-xl font-semibold flex items-center gap-x-2 dot-hover hover:opacity-70 transition-all duration-200">
                                 <div className="flex text-3xl items-center -translate-y-2 ">
                                     <div className="dot dot1 ">
