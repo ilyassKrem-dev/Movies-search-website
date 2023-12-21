@@ -21,26 +21,46 @@ export default function All({pNumber}:any) {
     localStorage.setItem('changeGenres', JSON.stringify(changeGenres));
   }, [changeGenres]);
   useEffect(() => {
-    router.push(`/all/${pageN}`);
-    if (changeGenres.length < 0) {
-        fetch(
-            `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${pageN}&sort_by=popularity.desc`,
-          optionsC
-        )
-          .then((res) => res.json())
-          .then((data) => setMovies(data));
-    } else {
-        const genreIds = changeGenres.map((genre:any) => genre.id);
-        const genreQueryString = genreIds.length > 0 ? `&with_genres=${genreIds.join('%2C')}` : '';
-        fetch(
-            `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${pageN}&sort_by=popularity.desc${genreQueryString}`,
-          optionsC
-        )
-          .then((res) => res.json())
-          .then((data) => setMovies(data));
+    if (pathname !== `/all/${pageN}`) {
+      router.push(`/all/${pageN}`);
     }
-    
-  }, [pathname , pageN , changeGenres]);
+  
+    if (changeGenres.length === 0) {
+      fetch(
+        `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${pageN}&sort_by=popularity.desc`,
+        optionsC
+      )
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          }
+          throw new Error('Failed to fetch movies');
+        })
+        .then((data) => setMovies(data))
+        .catch((error) => {
+          console.error('Error fetching movies:', error);
+          router.push("/all")
+        });
+    } else {
+      const genreIds = changeGenres.map((genre:any) => genre.id);
+      const genreQueryString = genreIds.length > 0 ? `&with_genres=${genreIds.join('%2C')}` : '';
+      fetch(
+        `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${pageN}&sort_by=popularity.desc${genreQueryString}`,
+        optionsC
+      )
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          }
+          throw new Error('Failed to fetch movies');
+        })
+        .then((data) => setMovies(data))
+        .catch((error) => {
+          console.error('Error fetching movies:', error);
+          router.push("/all")
+        });
+    }
+  }, [pathname, pageN, changeGenres, router, optionsC]);
 
   return (
     <div className="pt-36 pb-4 w-full h-full flex flex-col">

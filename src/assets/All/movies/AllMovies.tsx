@@ -2,7 +2,7 @@ import Image from "next/image";
 import {  useMemo, useState } from "react";
 import Link from "next/link";
 
-export default function  AllMovies({pageN , movies}:any) {
+export default function  AllMovies({ movies}:any) {
     const [movieId, setMovieid] = useState<any>();
     return (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 px-2">
